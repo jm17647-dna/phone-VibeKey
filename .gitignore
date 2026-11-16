@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.log
+
+# 运行时产物
+pair.png
+pc/*_out.txt
+pc/*_out_hwnd.txt
+config.json
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
