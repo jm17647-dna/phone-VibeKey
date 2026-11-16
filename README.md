@@ -1,17 +1,19 @@
-# VoiceBridge · 手机说话，电脑落字
+# phone-VibeKey · 手机就是你的 VibeKey
+
+> 不买硬件、不装 App：把手机当成电脑的语音键。说完一句，字直接落到光标处；按一下回车，Agent 就开始跑。
 
 > 📖 完整说明（使用范围 · 网络环境 · 排障）见 **[docs/使用手册.md](docs/使用手册.md)**
 
-用手机自带的输入法语音说话，文字**立刻出现在电脑的光标处**。不需要自研语音识别，不用装 App，「咻」一下就到电脑上了。
+台式机没麦克风，也不必为它单独买一只语音键。手机本来就在手边——打开一个网页，用你常用的输入法说话，文字边出边同步到电脑光标处，松手即落字；想把这段话交给 Agent，顺手点一下回车。全程不碰音频、不经过云服务，开源、零月费。
 
 ```
  手机浏览器（添加到主屏幕）                     Windows PC
-┌───────────────────────┐   WebSocket    ┌──────────────────────────┐
+┌────────────────────────┐   WebSocket    ┌──────────────────────────┐
 │  输入框（输入法语音出字）│ ─────────────▶ │  agent.py  (aiohttp)     │
 │  停顿 0.7–1.2s 自动发送 │   局域网/同一WiFi │   ↓                      │
 │  换行键 → 电脑按回车    │ ◀───────────── │  inject.py (ctypes)      │
 │  清空电脑输入框         │     ack          │  剪贴板 + Ctrl+V / 退格   │
-└───────────────────────┘                └──────────────────────────┘
+└────────────────────────┘                └──────────────────────────┘
 ```
 
 ## 为什么是「网页 + 输入法」而不是自己写 Android 输入法
@@ -36,7 +38,7 @@
 - 发送失败自动把文字放回手机输入框，不用重说
 - 最近 10 条记录：可编辑重发、删除、一键清空
 - 断线自动重连；电脑重启后手机无需重新扫码
-- 页面右下角显示版本号 + 构建号，方便判断手机是不是最新版
+- 页面左上角显示版本号 + 构建号，方便判断手机是不是最新版
 
 ## 快速开始（Windows PC）
 
@@ -50,7 +52,7 @@ pythonw agent.py        # 无控制台常驻；调试时用 python agent.py
 
 启动后：
 
-1. 任务栏出现 VoiceBridge 图标
+1. 任务栏出现 phone-VibeKey 图标
 2. 托盘菜单 → **显示配对二维码**
 3. 手机用**系统相机/扫一扫**扫这个二维码（不用微信扫）
 4. 浏览器打开配对地址，输入框自动聚焦，直接按住输入法的麦克风说话
@@ -146,31 +148,28 @@ WebSocket，路径 `/ws?t=<token>`，JSON 消息：
 ## 目录结构
 
 ```
-voicebridge/
+phone-VibeKey/
 ├─ pc/                     Windows 端
 │  ├─ agent.py             aiohttp 服务 + pystray 托盘 + 配对二维码
 │  ├─ inject.py            ctypes 剪贴板 / SendInput / 焦点判断
 │  ├─ showqr.py            tkinter 二维码窗口（子进程，避免 Tk 和 asyncio 抢线程）
 │  ├─ requirements.txt
 │  ├─ setup_firewall.ps1   手动放行防火墙（管理员）
-│  ├─ 启动.cmd            优先用 pythonw 启动
+│  ├─ 启动.cmd             优先用 pythonw 启动
 │  ├─ selftest.py          端到端：起服务 + 造目标窗口 + 断言最终文本
 │  ├─ keytest.py           远程回车测试
 │  ├─ cleartest.py         增量续写 + 清空测试
 │  ├─ dedup_test.py        重复消息幂等测试
 │  └─ target_window.py     测试用 Tk 窗口，每 250ms 把内容写文件
-├─ web/                    手机端页面
-│  ├─ index.html
-│  ├─ app.js               发送调度 / 增量 diff / 重连 / 历史
-│  ├─ style.css
-│  ├─ icon.svg             应用图标（矢量，manifest 使用）
-│  ├─ manifest.webmanifest
-│  ├─ domtest.mjs          用 DOM 桩直接跑 app.js
-│  ├─ diff_test.mjs        增量发送逻辑测试
-│  └─ ep_test.mjs          候选地址故障切换测试
-└─ docs/
-   ├─ 使用手册.md           使用范围 + 网络环境完整说明
-   └─ screenshots/         界面截图
+└─ web/                    手机端页面
+   ├─ index.html
+   ├─ app.js               发送调度 / 增量 diff / 重连 / 历史
+   ├─ style.css
+   ├─ manifest.webmanifest
+   ├─ icon.svg             应用图标（矢量，无需 PNG）
+   ├─ domtest.mjs          用 DOM 桩直接跑 app.js
+   ├─ diff_test.mjs        增量发送逻辑测试
+   └─ ep_test.mjs          候选地址故障切换测试
 ```
 
 ## 开发与测试
@@ -226,7 +225,7 @@ node ep_test.mjs            # 期望 connected to alt: true / RESULT PASS
 
 ## 配置
 
-`%APPDATA%\VoiceBridge\config.json`：
+`%APPDATA%\phone-VibeKey\config.json`：
 
 ```json
 { "port": 8765, "token": "由 secrets.token_hex(16) 生成" }
@@ -234,7 +233,7 @@ node ep_test.mjs            # 期望 connected to alt: true / RESULT PASS
 
 - 换端口：`python agent.py --port 9000`（只对本次生效，不写回配置）
 - 忘掉配对：删掉 `token` 字段重启，手机重新扫码即可
-- 日志：`%APPDATA%\VoiceBridge\agent.log`（崩溃时写）
+- 日志：`%APPDATA%\phone-VibeKey\agent.log`（崩溃时写）
 
 ## 路线图
 
