@@ -1,65 +1,56 @@
-"""弹出配对二维码（独立进程，避免 Tk 与 asyncio 抢线程）。"""
+"""显示配对二维码的小窗口（独立进程，避免和 asyncio 主循环抢线程）。"""
 from __future__ import annotations
 
+import json
 import sys
 import tkinter as tk
-from pathlib import Path
+from tkinter import ttk
 
-APP_NAME = "VoiceBridge"
+import qrcode
+from PIL import ImageTk
 
 
 def main() -> None:
-    url = sys.argv[1] if len(sys.argv) > 1 else ""
-    alts = []
-    if len(sys.argv) > 2:
-        import json
-
-        try:
-            alts = json.loads(sys.argv[2]) or []
-        except ValueError:
-            alts = []
-
+    url = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8765/"
     try:
-        import qrcode
-    except ImportError:
-        print("[warn] 未安装 qrcode，无法显示二维码")
-        return
-
-    img = qrcode.make(url)
-    png = Path(__file__).resolve().parent.parent / "pair.png"
-    img.save(png)
+        ips = json.loads(sys.argv[2]) if len(sys.argv) > 2 else []
+    except ValueError:
+        ips = []
 
     root = tk.Tk()
-    root.title(f"{APP_NAME} 配对")
-    root.configure(bg="#111827")
+    root.title("VoiceBridge 配对")
+    root.resizable(False, False)
     root.attributes("-topmost", True)
 
-    tk.Label(root, text="用手机扫一扫（微信/相机）", bg="#111827", fg="#e5e7eb",
-             font=("Microsoft YaHei UI", 12)).pack(padx=20, pady=(16, 6))
+    img = qrcode.make(url, box_size=7, border=2).get_image().resize((320, 320))
+    photo = ImageTk.PhotoImage(img)
 
-    from PIL import ImageTk
+    tk.Label(root, image=photo).pack(padx=18, pady=(18, 6))
+    tk.Label(root, text="用手机「扫一扫」扫这个码", font=("Microsoft YaHei UI", 13, "bold")).pack(pady=(0, 2))
+    tk.Label(root, text="打开后输入框会自动聚焦，直接用输入法语音说话", fg="#555").pack(pady=(0, 8))
 
-    photo = ImageTk.PhotoImage(img.resize((260, 260)))
-    label = tk.Label(root, image=photo, borderwidth=0)
-    label.image = photo
-    label.pack(padx=20, pady=6)
+    box = tk.Text(root, height=2, width=46, font=("Consolas", 9), wrap="char")
+    box.insert("1.0", url)
+    box.configure(state="disabled")
+    box.pack(padx=18, pady=(0, 8))
 
-    tk.Label(root, text=url, bg="#111827", fg="#93c5fd", wraplength=320,
-             font=("Consolas", 9)).pack(padx=20, pady=4)
+    others = [u for u in ips if u != url]
+    if len(others) > 0:
+        tk.Label(root, text="二维码里已含备用地址；扫不出时可手动输入：", fg="#777").pack()
+        for u in others:
+            tk.Label(root, text=u[:58], fg="#777", font=("Consolas", 8)).pack()
 
-    def copy() -> None:
+    row = tk.Frame(root)
+    row.pack(pady=(6, 16))
+
+    def copy_url() -> None:
         root.clipboard_clear()
         root.clipboard_append(url)
-        btn.config(text="已复制")
+        btn.configure(text="已复制")
 
-    btn = tk.Button(root, text="复制地址", command=copy, bg="#1f2937", fg="#e5e7eb",
-                    activebackground="#374151", activeforeground="#ffffff",
-                    relief="flat", padx=14, pady=6)
-    btn.pack(pady=(6, 16))
-
-    if alts:
-        tk.Label(root, text=f"备用地址 {len(alts)} 个（主地址连不上时自动切换）",
-                 bg="#111827", fg="#6b7280", font=("Microsoft YaHei UI", 9)).pack(pady=(0, 12))
+    btn = ttk.Button(row, text="复制地址", command=copy_url)
+    btn.pack(side="left", padx=6)
+    ttk.Button(row, text="关闭", command=root.destroy).pack(side="left", padx=6)
 
     root.mainloop()
 
