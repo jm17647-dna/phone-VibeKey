@@ -1,4 +1,4 @@
-"""VoiceBridge PC 端：局域网 HTTP + WebSocket 服务 + 托盘常驻。
+"""phone-VibeKey PC 端：局域网 HTTP + WebSocket 服务 + 托盘常驻。
 
 手机页面 POST 上来的整段文字，通过「写剪贴板 + Ctrl+V」落到当前焦点窗口。
 """
@@ -21,11 +21,11 @@ from aiohttp import WSMsgType, web
 
 APP_DIR = Path(__file__).resolve().parent
 WEB_DIR = APP_DIR.parent / "web"
-CONFIG_DIR = Path(os.environ.get("APPDATA") or Path.home()) / "VoiceBridge"
+CONFIG_DIR = Path(os.environ.get("APPDATA") or Path.home()) / "phone-VibeKey"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 DEFAULT_PORT = 8765
-APP_NAME = "VoiceBridge"
-APP_VERSION = "0.7.0"
+APP_NAME = "phone-VibeKey"
+APP_VERSION = "0.7.1"
 
 sys.path.insert(0, str(APP_DIR))
 import inject as injector  # noqa: E402
@@ -323,9 +323,8 @@ def build_app(cfg: dict) -> web.Application:
     app = web.Application(client_max_size=4 * 1024 * 1024)
     app.router.add_get("/", handle_index)
     app.router.add_get("/manifest.webmanifest", _root_file("manifest.webmanifest"))
-    app.router.add_get("/icon-192.png", _root_file("icon-192.png"))
-    app.router.add_get("/icon-512.png", _root_file("icon-512.png"))
-    app.router.add_get("/favicon.ico", _root_file("icon-192.png"))
+    app.router.add_get("/icon.svg", _root_file("icon.svg"))
+    app.router.add_get("/favicon.ico", _root_file("icon.svg"))
     app.router.add_get("/api/info", handle_info)
     app.router.add_get("/ws", handle_ws)
     app.router.add_get("/static/{name}", handle_static)
@@ -390,8 +389,8 @@ def _ps_quote(value: str) -> str:
 def fix_firewall() -> None:
     exe = sys.executable
     cmd = (
-        "netsh advfirewall firewall delete rule name=VoiceBridge > $null 2>&1; "
-        f"netsh advfirewall firewall add rule name=VoiceBridge dir=in action=allow "
+        "netsh advfirewall firewall delete rule name=phone-VibeKey > $null 2>&1; "
+        f"netsh advfirewall firewall add rule name=phone-VibeKey dir=in action=allow "
         f"program={_ps_quote(exe)} profile=private,domain,public enable=yes"
     )
     subprocess.Popen(
