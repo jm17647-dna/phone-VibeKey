@@ -4,6 +4,10 @@
 
 > 📖 完整说明（使用范围 · 网络环境 · 排障）见 **[docs/使用手册.md](docs/使用手册.md)**
 
+<p align="center">
+  <img src="docs/xiaohongshu/01-封面.png" width="400" alt="手机也能成为你的 VibeKey">
+</p>
+
 台式机没麦克风，也不必为它单独买一只语音键。手机本来就在手边——打开一个网页，用你常用的输入法说话，文字边出边同步到电脑光标处，松手即落字；想把这段话交给 Agent，顺手点一下回车。全程不碰音频、不经过云服务，开源、零月费。
 
 ```
@@ -15,6 +19,20 @@
 │  清空电脑输入框         │     ack          │  剪贴板 + Ctrl+V / 退格   │
 └────────────────────────┘                └──────────────────────────┘
 ```
+
+## 一图看懂
+
+九张宣传卡片，按「痛点 → 原理 → 用法 → 边界」顺序过一遍，比读文档快：
+
+| 封面 | 痛点 | 原理 |
+| :---: | :---: | :---: |
+| <img src="docs/xiaohongshu/01-封面.png" width="260"> | <img src="docs/xiaohongshu/02-痛点.png" width="260"> | <img src="docs/xiaohongshu/03-原理.png" width="260"> |
+| **语音中** | **Agent 加成** | **适用环境** |
+| <img src="docs/xiaohongshu/04-语音中.png" width="260"> | <img src="docs/xiaohongshu/05-Agent.png" width="260"> | <img src="docs/xiaohongshu/06-适用.png" width="260"> |
+| **上手 3 步** | **隐私** | **收尾** |
+| <img src="docs/xiaohongshu/07-上手.png" width="260"> | <img src="docs/xiaohongshu/08-隐私.png" width="260"> | <img src="docs/xiaohongshu/09-收尾.png" width="260"> |
+
+> 配套宣传文案见 **[docs/xiaohongshu/小红书文案.md](docs/xiaohongshu/小红书文案.md)**；全部卡片由 [生成图片.py](docs/xiaohongshu/生成图片.py) 渲染，改完文案可直接重跑。
 
 ## 为什么是「网页 + 输入法」而不是自己写 Android 输入法
 
@@ -249,6 +267,8 @@ MIT，见 [LICENSE](LICENSE)。
 
 ## 截图
 
-| 手机页面 | 最近记录 | 托盘菜单 |
-|---|---|---|
-| ![](docs/screenshots/01-phone.png) | ![](docs/screenshots/02-history.png) | ![](docs/screenshots/03-tray.png) |
+| 手机页面 | 录音中（v0.7.1） | 最近记录 | 托盘菜单 |
+|---|---|---|---|
+| ![](docs/screenshots/01-phone.png) | ![](docs/screenshots/04-recording.jpg) | ![](docs/screenshots/02-history.png) | ![](docs/screenshots/03-tray.png) |
+
+> `01-phone.png` 为脱敏版：原截图的键盘工具栏建议词条里带出过凭据前缀，已整条遮除。
