@@ -1,6 +1,6 @@
 {
-  "name": "VoiceBridge",
-  "short_name": "VoiceBridge",
+  "name": "phone-VibeKey",
+  "short_name": "VibeKey",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
