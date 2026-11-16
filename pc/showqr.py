@@ -18,7 +18,7 @@ def main() -> None:
         ips = []
 
     root = tk.Tk()
-    root.title("VoiceBridge 配对")
+    root.title("phone-VibeKey 配对")
     root.resizable(False, False)
     root.attributes("-topmost", True)
 
