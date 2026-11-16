@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/static/manifest.webmanifest">
+<link rel="stylesheet" href="/static/style.css">
+<title>VoiceBridge</title>
+</head>
+<body>
+<header>
+  <div class="brand">VoiceBridge <span class="ver">V{{VERSION}} · {{BUILD}}</span></div>
+  <div id="status" class="pill off">连接中…</div>
+</header>
+
+<main>
+  <textarea id="box" rows="3" autofocus autocapitalize="off" autocomplete="off" spellcheck="false"
+    placeholder="点这里，然后按住输入法的麦克风说话…"></textarea>
+  <div id="hint" class="hint"></div>
+  <div class="row">
+    <button id="enter">回车 ⏎</button>
+    <button id="clear">清空电脑输入框</button>
+  </div>
+  <div id="tip" class="tip">点上面输入框，用输入法的语音说话，松手就发到电脑光标处；在输入法上按回车/换行，会直接在电脑上敲一次回车。</div>
+
+  <section id="historyWrap" class="history hidden">
+    <div class="history-head">
+      <span>最近记录</span>
+      <button id="clearAll" class="link danger">清空全部</button>
+    </div>
+    <ul id="history"></ul>
+  </section>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
