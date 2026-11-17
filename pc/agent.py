@@ -25,7 +25,7 @@ CONFIG_DIR = Path(os.environ.get("APPDATA") or Path.home()) / "phone-VibeKey"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 DEFAULT_PORT = 8765
 APP_NAME = "phone-VibeKey"
-APP_VERSION = "0.7.1"
+APP_VERSION = "0.7.6"
 
 sys.path.insert(0, str(APP_DIR))
 import inject as injector  # noqa: E402
@@ -327,7 +327,7 @@ def build_app(cfg: dict) -> web.Application:
     app.router.add_get("/favicon.ico", _root_file("icon.svg"))
     app.router.add_get("/api/info", handle_info)
     app.router.add_get("/ws", handle_ws)
-    app.router.add_get("/static/{name}", handle_static)
+    app.router.add_get("/static/{name:.*}", handle_static)
     return app
 
 

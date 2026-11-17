@@ -13,8 +13,8 @@ APP = Path(__file__).resolve().parent
 OUT = APP / "_selftest_out.txt"
 HWND_FILE = APP / "_selftest_out_hwnd.txt"
 PORT = 8799
-FIRST = "你好 VoiceBridge 测试 123"
-FULL = "你好 VoiceBridge 测试 123 这是一句更完整的话"
+FIRST = "你好 phone-VibeKey 测试 123"
+FULL = "你好 phone-VibeKey 测试 123 这是一句更完整的话"
 
 user32 = ctypes.WinDLL("user32", use_last_error=True)
 user32.GetForegroundWindow.restype = wintypes.HWND
@@ -37,7 +37,7 @@ def force_fg(hwnd: int) -> None:
 
 
 async def main() -> None:
-    cfg_path = Path(os.environ["APPDATA"]) / "VoiceBridge" / "config.json"
+    cfg_path = Path(os.environ["APPDATA"]) / "phone-VibeKey" / "config.json"
     backup = cfg_path.read_text("utf-8") if cfg_path.exists() else None
     OUT.write_text("", encoding="utf-8")
     HWND_FILE.unlink(missing_ok=True)

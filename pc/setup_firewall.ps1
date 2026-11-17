@@ -1,4 +1,4 @@
-# 以管理员身份运行：为当前 Python 放行局域网入站（专用/域/公用网络）
+# 以管理员身份运行：为当前 Python 放行局域网入站（仅专用网络）
 $ErrorActionPreference = 'Stop'
 $exe = (Get-Command python).Source
 netsh advfirewall firewall delete rule name="phone-VibeKey" | Out-Null

@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const box = document.getElementById('box');
   const statusEl = document.getElementById('status');
   const historyEl = document.getElementById('history');

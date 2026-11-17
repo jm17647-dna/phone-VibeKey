@@ -14,3 +14,7 @@ config.json
 *.swp
 .DS_Store
 Thumbs.db
+
+# design/QA scratch
+shots/
+shot_preview.html

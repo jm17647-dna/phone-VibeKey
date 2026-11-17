@@ -1,0 +1,13 @@
+{
+  "palettes": [
+    "white-link-blue"
+  ],
+  "types": [
+    "host"
+  ],
+  "dealt": [
+    "host",
+    "instrument",
+    "gabarito"
+  ]
+}

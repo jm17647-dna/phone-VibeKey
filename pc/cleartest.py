@@ -36,7 +36,7 @@ def ws_worker(token):
 
 
 def main():
-    conf = pathlib.Path(os.environ["APPDATA"]) / "VoiceBridge" / "config.json"
+    conf = pathlib.Path(os.environ["APPDATA"]) / "phone-VibeKey" / "config.json"
     token = json.loads(conf.read_text("utf-8"))["token"]
     proc = subprocess.Popen([sys.executable, "agent.py", "--port", str(PORT), "--no-tray"],
                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

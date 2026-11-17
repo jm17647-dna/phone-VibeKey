@@ -1,4 +1,4 @@
-# PC 端运行所需依赖（Python 3.10+）
+﻿# PC 端运行所需依赖（Python 3.10+）
 aiohttp>=3.10
 pystray>=0.19
 pillow>=10.0

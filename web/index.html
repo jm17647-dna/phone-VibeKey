@@ -1,41 +1,48 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-radius="soft">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#0A0F1E">
+<meta name="color-scheme" content="dark">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="/static/manifest.webmanifest">
 <link rel="stylesheet" href="/static/style.css">
 <title>phone-VibeKey · 手机就是你的 VibeKey</title>
 </head>
 <body>
-<header>
-  <div class="brand">phone-VibeKey <span class="ver">V{{VERSION}} · {{BUILD}}</span></div>
+<header class="bar">
+  <div class="brand">phone-VibeKey<span class="ver">V{{VERSION}} · {{BUILD}}</span></div>
   <div id="status" class="pill off">连接中…</div>
 </header>
 
 <main>
-  <textarea id="box" rows="3" autofocus autocapitalize="off" autocomplete="off" spellcheck="false"
-    placeholder="点这里，然后按住输入法的麦克风说话…"></textarea>
-  <div id="hint" class="hint"></div>
-  <div class="row">
-    <button id="enter">回车 ⏎</button>
-    <button id="clear">清空电脑输入框</button>
+  <div class="composer">
+    <label class="sr" for="box">语音输入</label>
+    <textarea id="box" rows="3" autofocus autocapitalize="off" autocomplete="off" spellcheck="false"
+      placeholder="点这里，然后按住输入法的麦克风说话…"></textarea>
+    <div id="hint" class="hint" role="status" aria-live="polite"></div>
   </div>
-  <div id="tip" class="tip">点上面输入框，用输入法的语音说话，松手就发到电脑光标处；在输入法上按回车/换行，会直接在电脑上敲一次回车。</div>
 
-  <section id="historyWrap" class="history hidden">
+  <div class="row">
+    <button id="enter" type="button"><span>回车</span><span class="k">⏎</span></button>
+    <button id="clear" type="button">清空电脑输入框</button>
+  </div>
+  <p id="tip" class="tip">点上面输入框，用输入法的语音说话，松手就发到电脑光标处；在输入法上按回车/换行，会直接在电脑上敲一次回车。</p>
+
+  <section id="historyWrap" class="history hidden" aria-label="最近记录">
     <div class="history-head">
-      <span>最近记录</span>
-      <button id="clearAll" class="link danger">清空全部</button>
+      <span class="section-label">最近记录</span>
+      <button id="clearAll" class="link danger" type="button">清空全部</button>
     </div>
     <ul id="history"></ul>
   </section>
+  <p class="foot">手机当电脑的语音键 · 文字只走局域网，不经过云端</p>
 </main>
 
-<div id="toast" class="toast hidden"></div>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 <script src="/static/app.js"></script>
 </body>
 </html>

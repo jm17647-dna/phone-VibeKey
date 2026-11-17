@@ -16,7 +16,7 @@ SECOND = "第二批"
 
 
 async def main() -> None:
-    cfg_path = Path(os.environ["APPDATA"]) / "VoiceBridge" / "config.json"
+    cfg_path = Path(os.environ["APPDATA"]) / "phone-VibeKey" / "config.json"
     backup = cfg_path.read_text("utf-8") if cfg_path.exists() else None
     OUT.write_text("", encoding="utf-8")
     agent = subprocess.Popen(
